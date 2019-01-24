@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
-    get '/api/one_recipe_url' => 'recipe#one_recipe_action'
-  end
+    get '/recipes' => 'recipes#index'
+    post '/recipes' => 'recipes#create'
+    get '/recipes/:id' => 'recipes#show'
+    patch '/recipes/:id' =>'recipes#update'
+    delete '/recipes/:id' => 'recipes#destroy'
+   end
 end
