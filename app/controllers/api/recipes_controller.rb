@@ -1,6 +1,15 @@
 class Api::RecipesController < ApplicationController
  def index
-   @recipes = Recipe.all 
+
+   @recipes = Recipe.all
+
+   search_terms = params[:search]
+   if search_terms
+    @recipes = @recipes.where("title iLIKE ?", "%#{search_terms}%")
+  end
+
+  @recipes = @recipes.order(:id =>  :asc)
+
   render 'index.json.jbuilder'
   end
 
@@ -17,8 +26,11 @@ class Api::RecipesController < ApplicationController
   end
 
   def show
-    recipe_id = Recipe.find(params[:id])
-    @recipe = Recipe.find(:recipe_id)
+    @current_user = current_user
+
+
+    recipe_id = params[:id]
+    @recipe = Recipe.find(recipe_id)
     render 'show.json.jbuilder'
   end
 
